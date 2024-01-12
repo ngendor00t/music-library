@@ -14,15 +14,31 @@ class Artist(Base):
     id = Column(Integer() , primary_key=True)
     name = Column(String())
     gender = Column(String())
+    songs = relationship('Song', backref='artist')
     
-
-
-
-
     def __repr__(self):
         pass
  
- 
+class Song(Base):
+    __tablename__= 'songs'
+
+    id = Column(Integer() , primary_key=True)
+    name = Column(String())
+    year_realesed = Column(Integer())
+
+    artist_id = Column(Integer, ForeignKey('artists.id'))
+    
+    
+    album_id = Column(Integer, ForeignKey('albums.id'))
+    
+
+
+    
+    def __repr_(self):
+        return f"song{self.id}:"\
+          +f"{self.name},"\
+          +f'artist_id={self.artist_id}'
+            
  
  
     
@@ -33,7 +49,7 @@ class Album(Base):
     id = Column(Integer() ,primary_key=True)
     name = Column(String())
     number_of_songs = Column(Integer)
-    songs = relationship('Song', back_populates='album')
+    songs = relationship('Song', backref='album')
     
 
 
@@ -49,25 +65,6 @@ class Album(Base):
 
 
 
-class Song(Base):
-    __tablename__= 'songs'
 
-    id = Column(Integer() , primary_key=True)
-    name = Column(String())
-    year_realesed = Column(Integer())
-
-    artist_id = Column(Integer, ForeignKey('artists.id'))
-    artist = relationship('Artist', back_populates='songs')
-    
-    album_id = Column(Integer, ForeignKey('albums.id'))
-    album = relationship('Album', back_populates='songs')
-
-
-    
-    def __repr_(self):
-        return f"song{self.id}:"\
-          +f"{self.name},"\
-          +f'artist_id={self.artist_id}'
-            
 
 
